@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\PlayersController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\PlayersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $user = User::first();
+
+    $token = $user->createToken('myApi');
+
+    return ['token' => $token->plainTextToken];
+   /// return view('welcome');
 });
+
+Route::get('importTeam', [PlayersController::class, 'importTeam']);
+
+Route::get('importPlayer', [PlayersController::class, 'importPlayer']);
 

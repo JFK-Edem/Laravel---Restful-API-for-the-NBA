@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 return new class extends Migration
 {
@@ -13,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('players', function (Blueprint $table) {
-            $table->id()->limit(500);
-            $table->string('first_name');
-            $table->string('last_name')->nullable();
-            $table->string('position');
-            $table->integer('height');
+        Schema::create('player_team', function (Blueprint $table) {
+            $table->id();
+            $table->integer('player_id');
+            $table->integer('team_id');
+            $table->timestamp('joined_at')->nullable();
+            $table->softDeletes('left_at')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('player_team');
     }
 };

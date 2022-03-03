@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PlayerRequest extends FormRequest
+class PlayerUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class PlayerRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'position' => 'required|string',
-            'height' => 'required|numeric',
+            'name' => 'sometimes|required|string',
+            'photo' => 'sometimes|required|string|url',
+            'age' => 'sometimes|required|numeric|min:18',
+            'team' => ['sometimes','required', Rule::in('Lakers', "Golden State")],
         ];
     }
 }

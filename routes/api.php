@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\TeamsController;
 use App\Models\Player;
 
 /*
@@ -16,14 +18,23 @@ use App\Models\Player;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::group(['middleware'=>'auth:sanctum'], function() {
+
+Route::apiResource('/players', PlayersController::class);
+
+Route::apiResource('/teams/{team}/players', TeamsController::class);
+
+Route::post('/logout', [AuthController::class, 'logout']);
+
 });
 
-Route::get('/players', [PlayersController::class, 'index']);
 
-Route::post('/players', [PlayersController::class, 'store']);
 
-Route::put('/players/{player}', [PlayersController::class, 'update']);
 
-Route::delete('/players/{player}', [PlayersController::class, 'destroy']);
+

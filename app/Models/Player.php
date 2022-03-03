@@ -10,10 +10,14 @@ class Player extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'photo',
-        'age',
-        'team',
-        'country'
+        'first_name',
+        'last_name',
+        'position',
+        'height',
     ];
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class);
+    }
 }
